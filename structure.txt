@@ -1,0 +1,26 @@
+llm_ssh_agent/
+├── llm_ssh_agent/
+│   ├── __init__.py
+│   ├── app_state.py       # Data models and application state
+│   ├── config.py          # Configuration handling
+│   ├── core_logic.py      # Main application logic
+│   ├── llm_interface.py   # LLM interaction (Ollama, potentially others)
+│   ├── secure_storage.py  # Keyring interaction for secrets
+│   ├── ssh_manager.py     # Paramiko SSH handling
+│   ├── tui/
+│   │   ├── __init__.py
+│   │   ├── app.py         # Textual App class
+│   │   ├── widgets/
+│   │   │   ├── __init__.py
+│   │   │   ├── chat_pane.py
+│   │   │   ├── command_approval.py
+│   │   │   ├── connection_dialog.py
+│   │   │   ├── log_viewer.py
+│   │   │   └── status_bar.py
+│   │   └── main.py        # Entry point for TUI
+│   ├── gui/               # Placeholder for GUI
+│   │   ├── __init__.py
+│   │   └── main.py        # Entry point for GUI (stubbed)
+│   └── utils.py           # Utility functions (e.g., command parsing)
+├── pyproject.toml         # Project metadata and dependencies (using Poetry)
+└── README.md              # Documentation (will be generated in Phase 4)

@@ -1,0 +1,49 @@
+graph LR
+    subgraph User Interface (TUI/GUI)
+        UI_Chat[Chat Pane]
+        UI_SSHLog[SSH Log Pane]
+        UI_Input[User Input]
+        UI_Approval[Approval Prompt]
+        UI_Config[Config/Connect]
+    end
+
+    subgraph Application Core
+        Core[Core Logic / State]
+        LLM[LLM Interaction Module]
+        SSH[SSH Module]
+        Store[Secure Storage Module]
+        Config[Configuration Module]
+    end
+
+    subgraph Backends
+        Ollama[Ollama Service]
+        APIs[Cloud LLM APIs]
+        RemoteSSH[Remote SSH Server]
+        OSKeyring[OS Credential Store]
+    end
+
+    UserInput --> UI_Input --> Core
+    UI_Config --> Core --> SSH
+    UI_Config --> Core --> Config
+    UI_Config --> Core --> Store
+
+    Core --> LLM
+    LLM --> Ollama
+    LLM --> APIs
+    Ollama --> LLM
+    APIs --> LLM
+    LLM --> Core
+
+    Core --> UI_Chat
+    Core -- Check for SSH Command --> UI_Approval
+    UI_Approval -- User Action --> Core
+
+    Core -- Approved Command --> SSH
+    SSH -- Execute --> RemoteSSH
+    RemoteSSH -- Output/Error --> SSH
+    SSH --> Core
+
+    Core --> UI_SSHLog
+
+    Store <--> OSKeyring
+    Core --> Store
