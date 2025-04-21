@@ -1,0 +1,28 @@
+.
+├── llm_ssh_agent/
+│   ├── __init__.py
+│   ├── app_state.py
+│   ├── config.py          # (Optional, if settings beyond profiles are needed)
+│   ├── core_logic.py
+│   ├── llm_interface.py
+│   ├── secure_storage.py
+│   ├── ssh_manager.py
+│   ├── tui/
+│   │   ├── __init__.py
+│   │   ├── app.py
+│   │   ├── style.tcss     # TUI CSS file
+│   │   ├── widgets/
+│   │   │   ├── __init__.py
+│   │   │   # ├── chat_pane.py (Requires implementation)
+│   │   │   # ├── command_approval.py (Requires implementation)
+│   │   │   # ├── connection_dialog.py (Requires implementation)
+│   │   │   # ├── log_viewer.py (Requires implementation)
+│   │   │   # └── status_bar.py (Requires implementation)
+│   │   └── main.py
+│   ├── gui/
+│   │   ├── __init__.py
+│   │   └── main.py        # GUI Stub
+│   └── utils.py
+├── .gitignore             # Standard Python gitignore recommended
+├── pyproject.toml
+└── README.md              # Content provided above

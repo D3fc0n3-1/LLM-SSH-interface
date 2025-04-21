@@ -1,0 +1,24 @@
+Here are some extra details about the code and design:
+
+    Project Structure: The code is organized into a main package llm_ssh_agent.
+        app_state.py: Defines data structures (dataclasses) that hold the application’s state (like chat history, connection details).
+        core_logic.py: Acts as the central coordinator. It handles user input, manages the state, and calls the appropriate modules (LLM, SSH). It uses threading extensively to prevent the UI from freezing during network operations (SSH connection, LLM calls, command execution).
+        llm_interface.py: Responsible for communicating with the LLM backend (currently Ollama). It formats requests and parses responses, extracting text and potential SSH commands.
+        ssh_manager.py: Uses the paramiko library to handle all aspects of the SSH connection (connecting, authenticating, executing commands, reading output).
+        secure_storage.py: Uses the keyring library to securely store and retrieve sensitive data (passwords, passphrases) using the OS’s native credential store. Non-sensitive profile info is saved to a JSON file in ~/.config/llm_ssh_agent/.
+        tui/: Contains all code related to the Textual terminal user interface.
+            app.py: The main Textual App class, composing widgets and handling TUI events.
+            widgets/: Placeholder directory for individual UI components (chat pane, log viewer, etc.). These need detailed implementation.
+            main.py: The entry point to start the TUI.
+        gui/: Placeholder for a future Graphical User Interface.
+        utils.py: Contains helper functions, like formatting log messages.
+        pyproject.toml: Defines project metadata, dependencies, and entry points (llm-ssh-tui) for Poetry.
+    Key Libraries:
+        ollama: Official client library for interacting with a local Ollama service.
+        paramiko: A pure-Python SSHv2 library for handling SSH connections and command execution.
+        textual: A modern framework for building sophisticated Terminal User Interfaces (TUIs).
+        keyring: A cross-platform library to access the system’s credential store, used for securely saving passwords and passphrases.
+    Threading: CoreLogic uses Python’s threading module to run potentially blocking operations (connecting to SSH, querying the LLM, executing remote commands) in background threads. This ensures the TUI remains responsive. Callbacks are used to update the TUI from these background threads (using Textual’s call_from_thread for safety).
+    SSH Command Format: The LLM must be instructed to output commands using the specific format [SSH_COMMAND] command text. The LLMInterface uses a regular expression to detect this format. This structured approach is more reliable and secure than trying to interpret natural language requests for commands.
+    Security: Passwords/passphrases are handled via keyring, which is significantly more secure than storing them directly in config files. User approval is mandatory for all SSH commands suggested by the LLM.
+    TUI Focus: The current implementation focuses entirely on the Textual TUI. Several TUI widgets (CommandApprovalPane, ConnectionDialog) are placeholders and require further development to be fully interactive. The GUI is stubbed and non-functional.
