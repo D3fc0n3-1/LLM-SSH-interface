@@ -33,7 +33,7 @@ The primary goal is to streamline remote system management and troubleshooting b
 
 1.  **Clone the repository:**
     ```bash
-    git clone <your-repository-url> # Replace with the actual URL
+    git clone https://github.com/D3fc0n3-1/LLM-SSH-interface.git
     cd llm-ssh-agent
     ```
 
