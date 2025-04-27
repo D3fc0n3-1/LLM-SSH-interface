@@ -25,9 +25,17 @@ class ShowModalScreen(Message):
 
 
 # --- Placeholder Widgets (Representing the complex widgets in ./widgets/) ---
-class ChatPane(Log):
-     """ Placeholder for the actual chat pane widget. """
-     pass
+class ChatPane(Static): # <-- Change Log to Static
+    """ Placeholder for the actual chat pane widget. """
+    # Ensure markup is enabled if using Static to display rich text
+    # You might need to pass markup=True here or when updating its content
+    # For simplicity, let's assume it takes text and we'll set markup=True
+
+    # If ChatPane takes text directly to display, it might look something like this:
+    # def update(self, text: str):
+    #     self.update(text) # Static widget update
+    pass # Keep the pass for the placeholder if it's just inheriting for now
+
 
 class SSHLogPane(Log):
      """ Placeholder for the actual SSH log pane widget. """
