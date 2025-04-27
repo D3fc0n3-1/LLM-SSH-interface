@@ -7,7 +7,7 @@ from textual.widgets import Header, Footer, Log, Input, Button, Static, Label, L
 from textual.reactive import reactive
 from textual.binding import Binding
 from textual.message import Message
-from typing import List
+
 from ..core_logic import CoreLogic
 from ..app_state import ChatMessage, SSHLogEntry, SSHConnectionProfile # Import necessary states
 
@@ -25,36 +25,16 @@ class ShowModalScreen(Message):
 
 
 # --- Placeholder Widgets (Representing the complex widgets in ./widgets/) ---
-class ChatPane(Static): # Inheriting from Static
+class ChatPane(Static): # <-- Change Log to Static
     """ Placeholder for the actual chat pane widget. """
-    # Ensure Static renders markup
-    DEFAULT_CLASSES = "chat-pane" # Optional: Add a CSS class for styling
-    # You might need to set markup=True here or when updating content.
-    # Let's ensure the Static base class instance gets markup enabled.
-    # We can do this when calling update or if ChatPane had an __init__
+    # Ensure markup is enabled if using Static to display rich text
+    # You might need to pass markup=True here or when updating its content
+    # For simplicity, let's assume it takes text and we'll set markup=True
 
-    # A simple way to ensure markup is used when updating:
-    def update_chat_history(self, history: List[ChatMessage]):
-        """Formats and updates the chat pane with history."""
-        formatted_text = ""
-        for message in history:
-            # Basic formatting (adjust as needed for desired appearance)
-            if message.sender == "user":
-                formatted_text += f"[bold blue]User:[/][/bold blue] {message.text}\n\n"
-            elif message.sender == "llm":
-                formatted_text += f"[bold green]LLM:[/][/bold green] {message.text}\n\n"
-            elif message.sender == "system":
-                 formatted_text += f"[bold yellow]System:[/][/bold yellow] {message.text}\n\n"
-            # Remove trailing newline if it's the last message
-            if message != history[-1]:
-                 formatted_text += "\n"
-
-
-        self.update(formatted_text) # Update the Static widget's content with markup=True implicitly by using update()
-
-
-
-# The SSHLogPane might still be okay as Log if you want raw logs without markup
+    # If ChatPane takes text directly to display, it might look something like this:
+    # def update(self, text: str):
+    #     self.update(text) # Static widget update
+    pass # Keep the pass for the placeholder if it's just inheriting for now
 
 
 class SSHLogPane(Log):
@@ -117,13 +97,13 @@ class LLMSshApp(App[None]):
         yield Container(
             Horizontal(
                 Vertical(
-                    ChatPane(id="chat-pane"),
+                    ChatPane(id="chat-pane", markup=True),
                     Input(id="chat-input", placeholder="Enter your message..."),
                     id="left-pane",
                 ),
                 Vertical(
                     Label("SSH Execution Log", id="ssh-log-label"),
-                    SSHLogPane(id="ssh-log-pane", highlight=True,),
+                    SSHLogPane(id="ssh-log-pane", highlight=True),
                     Label("Pending Commands", id="pending-cmd-label"),
                     CommandApprovalPane(id="approval-pane"), # Use the placeholder
                     id="right-pane"
@@ -144,14 +124,9 @@ class LLMSshApp(App[None]):
     # --- Callback Implementations (called by CoreLogic) ---
 
     def update_chat(self, history: list[ChatMessage]):
-        """Callback to update the chat display."""
         def _update():
             chat_pane = self.query_one("#chat-pane", ChatPane)
-            # Call the new method to format and display the history
-            chat_pane.update_chat_history(history)
-
-            self.call_from_thread(_update) # Ensure UI updates happen on the main thread
-       	    chat_pane.clear()
+            chat_pane.clear()
             for msg in history:
                 prefix = "[bold blue]You:[/]" if msg.sender == "user" \
                     else "[bold magenta]LLM:[/]" if msg.sender == "llm" \

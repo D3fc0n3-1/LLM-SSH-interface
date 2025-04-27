@@ -1,0 +1,29 @@
+# File: pyproject.toml
+# Type: TOML (Configuration File for Poetry)
+
+[tool.poetry]
+name = "llm-ssh-agent"
+version = "0.1.0"
+description = "An LLM-driven SSH agent with chat interface and logging."
+authors = ["Your Name <you@example.com>"] # Replace with your details
+readme = "README.md"
+packages = [{include = "llm_ssh_agent"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"  # Require Python 3.9 or higher
+paramiko = "^3.4.0"
+ollama = "^0.2.1" # Official Ollama python client
+textual = {extras = ["dev"], version = "^0.69.0"} # TUI framework + dev tools
+keyring = "^25.2.1"
+# customtkinter = "^5.2.2" # Uncomment if/when GUI is implemented
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+llm-ssh-tui = "llm_ssh_agent.tui.main:run"
+# llm-ssh-gui = "llm_ssh_agent.gui.main:run" # Uncomment if/when GUI is implemented
