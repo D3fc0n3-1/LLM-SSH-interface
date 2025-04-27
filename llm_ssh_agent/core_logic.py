@@ -5,7 +5,7 @@ import time
 import threading
 from typing import Optional, Callable, List, Tuple
 
-from .app_state import AppState, ChatMessage, SSHLogEntry, SSHConnectionProfile
+from .app_state import AppState, ChatMessage, SSHLogEntry, SSHConnectionProfile, LLMConfig
 from .llm_interface import LLMInterface
 from .ssh_manager import SSHManager
 from .secure_storage import save_ssh_profile, load_all_ssh_profiles, delete_ssh_profile, get_ssh_secret

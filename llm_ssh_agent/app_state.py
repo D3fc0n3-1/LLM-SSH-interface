@@ -20,8 +20,8 @@ class SSHConnectionProfile:
     """Represents saved SSH connection details (secrets stored separately)."""
     profile_name: str
     hostname: str
-    port: int = 22
     username: str
+    port: int = 22
     auth_method: str = "key" # "key" or "password"
     key_path: Optional[str] = None
 
