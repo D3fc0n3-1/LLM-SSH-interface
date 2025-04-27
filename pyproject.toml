@@ -5,7 +5,7 @@
 name = "llm-ssh-agent"
 version = "0.1.0"
 description = "An LLM-driven SSH agent with chat interface and logging."
-authors = ["Your Name <you@example.com>"] # Replace with your details
+authors = ["D3fc0n 3.1 <dfcn3.1@gmail.com>"] # Replace with your details
 readme = "README.md"
 packages = [{include = "llm_ssh_agent"}]
 

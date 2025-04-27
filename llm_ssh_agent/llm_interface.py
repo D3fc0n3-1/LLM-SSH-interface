@@ -14,6 +14,9 @@ class LLMInterface:
 
     def __init__(self, config: LLMConfig):
         self.config = config
+
+        print(f"DEBUG: In LLMInterface __init__, received base_url: {self.config.base_url}") # <-- Add this print
+
         self.client = None
         if self.config.provider == "ollama":
             try:
