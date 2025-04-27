@@ -56,7 +56,9 @@ class SSHManager:
             return False, f"Unsupported authentication method: {profile.auth_method}"
 
         client = paramiko.SSHClient()
-        client.set_missing_host_key_policy(paramiko.AutoAddPolicy()) # Or use WarningPolicy / load known_hosts
+        # Load known hosts from the default known_hosts file
+        client.load_system_host_keys()
+        client.set_missing_host_key_policy(paramiko.RejectPolicy())  # Reject unknown host keys
 
         try:
             print(f"Attempting SSH connection to {profile.username}@{profile.hostname}:{profile.port}...")
