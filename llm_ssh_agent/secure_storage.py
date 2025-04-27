@@ -55,7 +55,7 @@ def save_ssh_profile(profile: SSHConnectionProfile, password: Optional[str] = No
              keyring.delete_password(KEYRING_SERVICE_NAME, _get_key_passphrase_alias(profile.profile_name))
 
     except keyring.errors.KeyringError as e:
-        print(f"Error interacting with keyring: {e}") # Replace with logging/user feedback
+        print("Error interacting with keyring. Please check the keyring configuration.") # Replace with logging/user feedback
 
 def load_all_ssh_profiles() -> Dict[str, SSHConnectionProfile]:
     """Loads all saved SSH profiles from the JSON file."""
@@ -72,7 +72,7 @@ def load_all_ssh_profiles() -> Dict[str, SSHConnectionProfile]:
                  profiles[name] = SSHConnectionProfile(**data)
             return profiles
     except (IOError, json.JSONDecodeError) as e:
-        print(f"Error loading profiles file: {e}") # Replace with logging
+        print("Error loading profiles file. Please check the file and its permissions.") # Replace with logging
         return {}
 
 def get_ssh_secret(profile_name: str, secret_type: str) -> Optional[str]:
@@ -88,7 +88,7 @@ def get_ssh_secret(profile_name: str, secret_type: str) -> Optional[str]:
     try:
         return keyring.get_password(KEYRING_SERVICE_NAME, alias)
     except keyring.errors.KeyringError as e:
-        print(f"Error retrieving secret from keyring for {alias}: {e}") # Replace with logging
+        print("Error retrieving secret from keyring. Please check the keyring configuration.") # Replace with logging
         return None
 
 def delete_ssh_profile(profile_name: str):
@@ -103,7 +103,7 @@ def delete_ssh_profile(profile_name: str):
             with open(PROFILES_FILE, 'w') as f:
                 json.dump(profiles_dict, f, indent=4)
         except IOError as e:
-            print(f"Error saving profiles file after deletion: {e}")
+            print("Error saving profiles file after deletion. Please check the file and its permissions.")
 
         # Delete secrets from keyring
         try:
@@ -111,4 +111,4 @@ def delete_ssh_profile(profile_name: str):
             keyring.delete_password(KEYRING_SERVICE_NAME, _get_key_passphrase_alias(profile_name))
         except keyring.errors.KeyringError as e:
             # Log this, but don't stop the profile deletion
-            print(f"Could not delete secrets for {profile_name} from keyring: {e}")
+            print("Could not delete secrets from keyring. Please check the keyring configuration.")
